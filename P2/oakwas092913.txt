@@ -1,0 +1,8 @@
+9/29/13	Oakland	OAK	Washington	WAS	6
+1	10:40	OAK	TD	Stewart 0 return of blocked punt	Janikowski kick	1
+1	3:06	OAK	TD	Rivera 18 pass from Flynn	Janikowski kick	1
+2	14:21	WAS	FG	FG Potter 25
+2	10:59	WAS	TD	Amerson 45 interception	Potter kick	1
+3	2:58	WAS	TD	Garcon 5 pass from Griffin	Potter kick	1
+4	6:59	WAS	TD	Helu 14 run	Potter kick	1
+

@@ -1,0 +1,96 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Homework #3 DEADLINE: February 18, 2015
+Program Description: Document Statistics
+*/ 
+import java.util.Scanner;
+public class Document {
+	private Term[] terms;
+	
+	Document(String text) {
+		String[] tokens = text.split(" ");
+		recordTermFreqs(tokens);
+	}
+	
+	private void recordTermFreqs(String[] tokens) {
+		sortStrings(tokens);
+		for (int i=0; i<tokens.length; i++) {
+			System.out.println(tokens[i]);
+		}
+		int sameStrings = 0; 
+		//Find Duplicates
+		for (int m=0; m<tokens.length-1; m++) {
+			for (int n=m+1; n<tokens.length; n++) {
+				if (tokens[m].compareTo(tokens[n]) == 0) {
+					sameStrings++;
+					break;
+				}
+				else if (tokens[m].compareTo(tokens[n]) != 0) {
+					break;
+				}
+			}
+		}
+		//Create an array with only distinct terms, no duplicates
+		String[] distinctTokens = new String[tokens.length-sameStrings];
+		distinctTokens[0] = tokens[0];
+		System.out.println(distinctTokens[0]);
+		int index = 0;
+		for (int k=1; k<tokens.length; k++) {
+			if (tokens[k].compareTo(distinctTokens[index]) != 0) {
+				distinctTokens[index+1] = tokens[k];
+				System.out.println(distinctTokens[index+1]);
+				index++;
+			}
+		}
+		int[] tokenFrequency = new int[distinctTokens.length];
+		int tokenCount = 0;
+		for (int d=0; d<tokenFrequency.length; d++) {
+			tokenCount = 0;
+			for (int t=0; t<tokens.length; t++) {
+				if (distinctTokens[d].compareTo(tokens[t]) == 0) {
+					tokenCount++
+				}
+			}
+			tokenFrequency[d] = tokenCount;
+		}
+	}
+	
+	public static String[] sortStrings(String[] tokens) {
+		int min = 0;
+		for (int i=0; i<tokens.length-1; i++) {
+			min = i;
+			for (int m=i+1; m<tokens.length; m++) {
+				if (tokens[min].compareTo(tokens[m]) < 0) { 
+					continue;
+				}
+				else if (tokens[min].compareTo(tokens[m]) > 0) {
+					min = m;
+				}
+				else {
+					continue;
+				}
+			}
+			String temp = tokens[i];
+			tokens[i] = tokens[min];
+			tokens[min] = temp;
+		}
+		return tokens;
+	}
+	
+	public void printTermFreqs() {
+		
+	}
+	
+	public int getLetterCount(char letter) {
+		
+	}
+	
+	public static void main(String[] args) {
+		Scanner scan= new Scanner(System.in);
+		System.out.println("Enter a line of text");
+		String userInput = scan.nextLine();
+		Document text = new Document(userInput);
+	}
+}

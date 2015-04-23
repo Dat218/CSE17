@@ -1,0 +1,22 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #3 DEADLINE: March 26, 2015
+Program Description: Online Store
+*/ 
+public class Book extends Product{
+	private String title;
+	private String author;
+	
+	public Book(int serialNum, String title, String author, double price) {
+		super(price, serialNum);
+		this.title = title;
+		this.author = author;
+	}
+	
+	public String getDescription() {
+		String description = "";
+		description += ("%s by %s", title, author;)
+	}
+}

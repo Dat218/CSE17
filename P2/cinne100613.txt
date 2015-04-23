@@ -1,0 +1,8 @@
+10/6/13	Cincinnati	CIN	New England	NE	5
+2	4:42	CIN	FG	FG Nugent 39
+2	0:29	NE	FG	FG Gostkowski 42
+3	6:17	CIN	FG	FG Nugent 50
+4	7:48	CIN	TD	Green-Ellis 1 run	Nugent kick	1
+4	2:53	NE	FG	FG Gostkowski 19
+
+

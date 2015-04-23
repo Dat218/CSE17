@@ -1,0 +1,52 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Homework #3 DEADLINE: February 18, 2015
+Program Description: Document Statistics
+*/ 
+import java.util.Scanner;
+public class Document {
+	private Term terms;
+	
+	Document(String text) {
+		String[] terms = text.split(" ");
+		recordTermFreqs(terms);
+	}
+	
+	private void recordTermFreqs(String[] terms) {
+		sortStrings(terms);
+		for (int i=0; i<terms.length; i++) {
+			System.out.println(terms[i]);
+		}
+	}
+	
+	public static String[] sortStrings(String[] terms) {
+		String[] sortedTerms = new String[terms.length];
+		for (int i=0; i<terms.length-1; i++) {
+			int min = i;
+			for (int m=i+1; m<terms.length; m++) {
+				if ((int)(terms[m].charAt(0)) < (int)(terms[min].charAt(0))) {
+					min = m;
+				}
+			}
+			sortedTerms[i] = terms[min];
+		}
+		return sortedTerms;
+	}
+	
+	public void printTermFreqs() {
+		
+	}
+	
+	public int getLetterCount(char letter) {
+		
+	}
+	
+	public static void main(String[] args) {
+		Scanner scan= new Scanner(System.in);
+		System.out.println("Enter a line of text");
+		String userInput = scan.nextLine();
+		Document text = new Document(userInput);
+	}
+}

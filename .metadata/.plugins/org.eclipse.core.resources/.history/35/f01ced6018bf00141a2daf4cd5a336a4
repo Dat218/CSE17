@@ -1,0 +1,34 @@
+
+public class FootballGame {
+	private String homeShort;
+	private String visitorShort;
+	private FootballScore[] scores;
+	
+	public FootballGame(String homeTeam, String homeShort, String visitorTeam, String visitorShort, String dateString, FootballScore[] scores) {
+		
+	}
+	
+	private void sumScores() {
+		
+	}
+	
+	public int[] getHomeScoreByQuarter() {
+		
+	}
+	
+	public int[] getVisitorScoreByQuarter() {
+		
+	}
+	
+	public void printBoxScore() {
+		
+	}
+	
+	public static FootballGame readGameFromFile(String filename) {
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}

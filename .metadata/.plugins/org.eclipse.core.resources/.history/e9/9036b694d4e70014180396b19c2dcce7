@@ -1,0 +1,101 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #5 DEADLINE: April 23, 2015
+Program Description: Digital Music Library with Advanced Sorting
+*/ 
+import java.util.ArrayList;
+import java.util.Comparator;
+public class ComparatorSorts <T extends Comparable<T>> {
+	
+	public static <T> void mergeSort(ArrayList<T> list, Comparator<T> sortOrder) {
+		if (list.size() > 1) {
+			ArrayList<T> firstHalf = new ArrayList<T>();
+			for (int i=0; i<list.size()/2; i++) {
+				firstHalf.add(list.get(i));
+			}
+			mergeSort(firstHalf, sortOrder);
+			//Merge sort for second half
+			int secondHalfLength = 0;
+			if (list.size() % 2 != 0) {
+				secondHalfLength = (list.size()/2) + 1;
+			}
+			else {
+				secondHalfLength = list.size()/2;
+			}
+			ArrayList<T> secondHalf = new ArrayList<T>();
+			for (int m=0; m<secondHalfLength; m++) {
+				secondHalf.add(list.get(m+(list.size()/2));
+			}
+			mergeSort(secondHalf, sortOrder);
+			//Merging the two halves
+			merge(list, sortOrder, firstHalf, secondHalf);
+		}
+	}
+	
+	public static <T> void merge(ArrayList<T> list, Comparator<T> sortOrder, ArrayList<T> firstHalf, ArrayList<T> secondHalf) {
+		
+	}
+	
+	//Calls on helper method and provides the first and last index of array
+	public static <T> void quickSort(ArrayList<T> list, Comparator<T> sortOrder) {
+		 if (list.size() > 1) {
+			quickSort(list, 0, list.size()-1, sortOrder);
+		 }
+	}
+	
+	//Helper method for recursive quickSort
+	public static <T> void quickSort(ArrayList<T> list, int first, int last, Comparator<T> sortOrder) {
+		if (last > first) {
+			int pivotIndex = partition(list, first, last, sortOrder);
+			quickSort(list, first, pivotIndex-1, sortOrder); //Sort values to the left of the pivot
+			quickSort(list, first, pivotIndex-1, sortOrder); //Sort values to the right of the pivot
+		}
+	}
+	
+	public static <T> int partition(ArrayList<T> list, int first, int last, Comparator<T> sortOrder) {
+		T pivot = list.get(first);
+		int low = first + 1;
+		int high = last;
+		
+		//Allows the method to compare every value together in the array before putting pivot in the correct place
+		while (high > low) {
+			while (low <= high && sortOrder.compare(list.get(low), pivot) < 0) {
+				low++;
+			}
+			while (low <= high && sortOrder.compare(list.get(high), pivot) > 0) {
+				high--;
+			}
+			//Swaps two elements in the array if necessary
+			if (high > low) {
+				T temp = list.get(low);
+				list.set(low, list.get(high));
+				list.set(high, temp);
+			}
+		}
+		while (high > first && sortOrder.compare(list.get(high), pivot) > 0) {
+			high--;
+		}
+		
+		if (sortOrder.compare(pivot, list.get(high)) > 0) {
+			list.set(first, list.get(high));
+			list.set(high, pivot);
+			return high;
+		}
+		else {
+			return first;
+		}
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("HEY");
+		list.add("man");
+		list.add("a");
+		list.add("A");
+		list.add("Zoo");
+		quickSort(list, String.CASE_INSENSITIVE_ORDER);
+		System.out.println(list);
+	}
+}

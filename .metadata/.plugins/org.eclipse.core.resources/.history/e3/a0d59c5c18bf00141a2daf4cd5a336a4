@@ -1,0 +1,32 @@
+
+public class FootballScore {
+	private int quarter;
+	private String time;
+	private int patPts;
+	private String patPlay;
+	private String type;
+	
+	public FootballScore(String team, String type, int quarter, String time, String play, int patPts, String patPlay) {
+		
+	}
+	
+	public FootballScore(String team, String type, int quarter, int quarters, String time, String play) {
+		
+	}
+	
+	public int getQuarter() {
+		return quarter;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String toString() {
+		
+	}
+}

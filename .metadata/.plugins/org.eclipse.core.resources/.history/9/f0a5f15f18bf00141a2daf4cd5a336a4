@@ -1,0 +1,37 @@
+
+import java.util.Date;
+public class Game {
+	private String homeTeam;
+	private String visitorTeam;
+	private int homeScore;
+	private int visitorScore;
+	private Date date;
+	
+	public Game(String homeTeam, String visitorTeam, String dateString) {
+		
+	}
+	
+	public String gethomeTeam() {
+		return homeTeam;
+	}
+	
+	public String getVisitorTeam() {
+		return visitorTeam;
+	}
+	
+	public int getHomeScore() {
+		return homeScore;
+	}
+	
+	public int getVisitorScore() {
+		return visitorScore;
+	}
+	
+	public void addToHomeScore(int points) {
+		
+	}
+	
+	public void addToVisitorScore(int points) {
+		
+	}
+}

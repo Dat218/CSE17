@@ -1,0 +1,69 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Homework #3 DEADLINE: February 18, 2015
+Program Description: Document Statistics
+*/ 
+import java.util.Scanner;
+public class Document {
+	private Term[] terms;
+	
+	Document(String text) {
+		String[] terms = text.split(" ");
+		recordTermFreqs(terms);
+	}
+	
+	private void recordTermFreqs(String[] terms) {
+		sortStrings(terms);
+		for (int i=0; i<terms.length; i++) {
+			System.out.println(terms[i]);
+		}
+		int sameStrings = 0; 
+		for (int m=0; m<terms.length-1; m++) {
+			for (int n=m+1; n<terms.length; n++) {
+				if (terms[m].compareTo(terms[n]) == 0) {
+					sameString++;
+				}
+			}
+		}
+		System.out.println(sameStrings);
+	}
+	
+	public static String[] sortStrings(String[] terms) {
+		int min = 0;
+		for (int i=0; i<terms.length-1; i++) {
+			min = i;
+			for (int m=i+1; m<terms.length; m++) {
+				if (terms[min].compareTo(terms[m]) < 0) { 
+					continue;
+				}
+				else if (terms[min].compareTo(terms[m]) > 0) {
+					min = m;
+				}
+				else {
+					continue;
+				}
+			}
+			String temp = terms[i];
+			terms[i] = terms[min];
+			terms[min] = temp;
+		}
+		return terms;
+	}
+	
+	public void printTermFreqs() {
+		
+	}
+	
+	public int getLetterCount(char letter) {
+		
+	}
+	
+	public static void main(String[] args) {
+		Scanner scan= new Scanner(System.in);
+		System.out.println("Enter a line of text");
+		String userInput = scan.nextLine();
+		Document text = new Document(userInput);
+	}
+}

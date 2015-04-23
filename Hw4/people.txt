@@ -1,0 +1,21 @@
+F	Henry S. Baird	Professor	baird@cse.lehigh.edu	Pattern recognition, machine learning, computer vision, document image analysis, digital libraries, human interactive proofs (CAPTCHAs), algorithms
+F	Brian Y. Chen	Assistant Professor	chen@cse.lehigh.edu	Structural bioinformatics, structural and computational biology.
+F	Liang Cheng	Associate Professor	cheng@cse.lehigh.edu	Cyber-physical systems, smart grids, sensor networks, network design, middleware, network management, distributed computing. 
+F	Mooi Choo Chuah	Associate Professor	chuah@cse.lehigh.edu	Heterogeneous network architecture design, content-centric network, network & smartgrid security, mobile and cloud computing, mobile health.
+F	Brian D. Davison	Associate Professor	davison@cse.lehigh.edu	 Information retrieval, data mining, link analysis, network science, web science, and network architecture with applications to web search, social network analysis, social computing, reputation systems, expert finding, web-based systems and adversarial information retrieval.
+F	James Femister	Adjunct Professor	femister@cse.lehigh.edu	n/a
+F	Jeff Heflin	Associate Professor	heflin@cse.lehigh.edu	Artificial intelligence, semantic web, web-based systems, ontologies, intelligent agents.
+S	Bryan Hodgson	Systems Manager	hodgson@cse.lehigh.edu
+F	Xiaolei Huang	Associate Professor	huang@cse.lehigh.edu	Biomedical image analysis, computer vision, and computer graphics.
+F	Sharon Kalafut	Professor of Practice	kalafut@cse.lehigh.edu	Programming languages, database systems, web-based systems.
+O	Peter Parker	Photographer	parker@dailybugle.com
+F	Hank Korth	Professor	korth@cse.lehigh.edu	Database systems, distributed systems, real-time systems, parallel algorithms for mulitcore processors.
+F	Jeff Heflin	Assistant Professor	heflin@cse.lehigh.edu	Artificial intelligence, semantic web, web-based systems, ontologies, intelligent agents.
+F	Daniel Lopresti	Professor and Chair	lopresti@cse.lehigh.edu	Pattern recognition, document analysis, pen computing, biometric security, electronic voting systems, bioinformatics.
+F	Hector Munoz-Avila	Associate Professor	munoz@cse.lehigh.edu	Artificial intelligence, planning, case-based reasoning, intelligent decision support systems, AI game programming.
+F	Michael Spear	Assistant Professor	spear@cse.lehigh.edu	Runtime and operating systems, languages, and processor and memory architecture, with an emphasis on simplifying the development of correct multithreaded applications.
+F	John Spletzer	Associate Professor	spletzer@cse.lehigh.edu	Intelligent vehicle systems, assistive technologies, and multi-robot systems.
+S	Jeanne Steinberg	Administrative Associate	jgs2@cse.lehigh.edu
+F	Gang Tan	Assistant Professor	tan@cse.lehigh.edu	Software security, programming languages, software engineering, program verification.
+F	Brian Davison	Associate Professor	davison@cse.lehigh.edu	 Information retrieval, data mining, link analysis, network science, web science, and network architecture with applications to web search, social network analysis, social computing, reputation systems, expert finding, web-based systems and adversarial information retrieval.
+S	Heidi Wegrzyn	Academic Coordinator	hew207@lehigh.edu

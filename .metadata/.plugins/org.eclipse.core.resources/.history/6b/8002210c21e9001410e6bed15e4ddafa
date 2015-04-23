@@ -1,0 +1,295 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #4 DEADLINE: April 6, 2015
+Program Description: Spell Checker
+The Class Spell Checker represents the whole entity of the SpellChecker, every interaction will occur in this instance.
+This class will check every word that is entered by the user and check its spelling.
+If the word is misspelled, the class will create a list of 5 possible suggestions for the misspelled word by interacting with the methods 
+in this class to determine the best substitute. 
+This class practices the use of recursion, catching exceptions, ArrayList, generic types, and many more crucial concepts.
+*/
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+public class SpellChecker {
+	private ArrayList<DictionaryItem> dictionary = new ArrayList<DictionaryItem>();
+	
+	/*
+	 * SpellChecker is an instance that contains 20069 terms and 20 Suggested terms
+	 * First, the constructor reads the "us-dic.txt" file to get the dictionary, finds their soundex, and adds it to the dictionary
+	 * Then it sorts the dictionary in ascending order by soundex and than term
+	 */
+	public SpellChecker() {
+		try {
+			File file = new File("us-dic.txt");
+			Scanner fileContent = new Scanner(file);
+			//Goes until last word in dictionary is stored into dictionary
+			while (fileContent.hasNextLine()) {
+				String term = fileContent.nextLine(); 
+				String soundex = soundex(term);
+				DictionaryItem word = new DictionaryItem(term, soundex);
+				this.dictionary.add(word);
+			}
+			ArrayListUtil.selectionSort(this.dictionary);	
+			System.out.printf("Loaded %d words into dictionary\n \n", this.dictionary.size());
+		} catch (FileNotFoundException ex) {
+			System.out.println("File not found, ending program");
+			System.exit(1);
+		}
+	}
+	
+	/*
+	 * CheckDictionary checks to see if a term is in the dictionary
+	 * Uses binary search to search through dictionary 
+	 */
+	public boolean checkDictionary(String term) {
+		if (term.equals("I")) {
+			return true;
+		}
+		if (term.equals("i")) {
+			return false;
+		}
+		if (ArrayListUtil.binarySearch(this.dictionary, term) == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * If there is indeed a typo, getCandidates will find the index of where the type should be located in the dictionary
+	 * Then it stores the 10 preceding and subsequent terms in a new ArrayList of DictionaryItem.
+	 */
+	private ArrayList<DictionaryItem> getCandidates(String typo) {
+		//Program will find exactly where the typo would fit in the sorted dictionary. 
+		int indexOfTypo = ArrayListUtil.binarySearch(this.dictionary, typo);
+		//Always returned as -x-1, converting it to positive int for interacting with ArrayList
+		if (indexOfTypo < 0) {
+			indexOfTypo = -indexOfTypo - 1;
+		}
+		//Finds the 10 preceding and subsequent terms, if possible
+		ArrayList<DictionaryItem> candidates = new ArrayList<DictionaryItem>();
+		for (int i=indexOfTypo-10; i<indexOfTypo+10; i++) {
+			if (i >= 0 && i < this.dictionary.size()) {
+				candidates.add(this.dictionary.get(i));
+			}
+		}
+		return candidates;
+	}
+	
+	/*
+	 * rankCandidates will find the edit distance of each candidate found above. 
+	 * After that, this method will create a new instance SuggestedTerm for every candidate 
+	 * and sort the candidates out based on its edit distance. 
+	 * At the end, the candidates will be added in a new SuggestedTerm ArrayList in ascending order based on editDistance 
+	 */
+	private ArrayList<SuggestedTerm> rankCandidates(String typo, ArrayList<DictionaryItem> candidates) {
+		ArrayList<SuggestedTerm> rankedCandidates = new ArrayList<SuggestedTerm>();
+		//Finds edit distance for each possible candidate and stores these values in an array
+		for (int i=0; i<candidates.size(); i++) {
+			int editDistance = editDistance(typo , candidates.get(i).getTerm());
+			SuggestedTerm suggestedTerm = new SuggestedTerm(candidates.get(i).getTerm() , editDistance);
+			rankedCandidates.add(suggestedTerm);
+		}
+		ArrayListUtil.selectionSort(rankedCandidates);
+		return rankedCandidates;
+	}
+	
+	/*
+	 * Gets ArrayList candidates from getCandidates() and passes that through to rankedCandidates() 
+	 * in order to compile a list a possible suggestions for the misspelled words.
+	 * It also makes sure the letters are in lower case. 
+	 */
+	public ArrayList<SuggestedTerm> getRankedCandidates(String typo) {
+		typo = typo.toLowerCase();
+		ArrayList<DictionaryItem> candidates = getCandidates(typo);
+		ArrayList<SuggestedTerm> rankedCandidates = rankCandidates(typo, candidates);
+		return rankedCandidates;
+	}
+	
+	/*
+	 * editDistance will return the lowest amount of moves required to change misspelled word to the specific DictionaryItem term.
+	 * In order to determine the number of edits needed, this recursive method will run through ever possible combination of 
+	 * deletion, insertion, and letter exchange possible to find the smallest number. 
+	 * Base occurs when one of the words reach the point where they are only one letter long.
+	 * This concept will be described more clearly in the helper method below. 
+	 */
+	public static int editDistance(String word1, String word2) {
+		int length1 = word1.length();
+		int length2 = word2.length();
+		if (length1 == 1 || length2 == 1) {
+			if (word1.charAt(0) == word2.charAt(0)) {
+				int distance = length2 - length1;
+				if (distance < 0) {
+					distance = -(distance);
+				}
+				return distance;
+			}
+			else {
+				int distance = length2 - length1;
+				if (distance < 0) {
+					distance = -(distance);
+				}
+				return 1 + distance;
+			}
+		}
+		//base case
+		if (word1.equals(word2)) {
+			return 0;
+		}
+		//If last letters are equal
+		else if (word1.charAt(length1-1) == word2.charAt(length2-1)) {
+			return editDistance(word1, word2, length1-1, length2-1);
+		}
+		//if last letters are not equal. Recursive method goes through multiple deletion, insertion, and addition scenarios to determine min editDistance
+		else { 
+			return 1 + Math.min(Math.min(editDistance(word1, word2, length1-1, length2), editDistance(word1, word2, length1, length2-1)), editDistance(word1, word2, length1-1, length2-1)); 
+		}
+		
+	}
+	
+	//Helper method, performs the same function as above.
+	private static int editDistance(String word1, String word2, int index1, int index2) {
+		/* 
+		 * This conditional statement is interacted when situation gets to the point where we are comparing a single letter to a word of any length 
+		 * as a result of subtracting the last term until we reach the last letter.
+		 * Algorithm is tough to explain so I'll use an example, pretend we deleted all the last letters in a word until it reached D
+		 * Well if we are comparing D to De, the last letters will not be equal
+		 * However, D and D are still equal so there is no point in removing the last letter (D in this situation)
+		 * So it just returns 1 becasue that is how many changes program makes to get D = De
+		 * If scenario is H = De, returns 2
+		 * If scenario is H = Dee, returns 3
+		 * If scenario is D = Dee, returns 2 (for 2 deletion of e)
+		 */
+		if (index1 == 1 || index2 == 1) {
+			if (word1.charAt(0) == word2.charAt(0)) {
+				int distance = index2 - index1;
+				if (distance < 0) {
+					distance = -(distance);
+				}
+				return distance;
+			}
+			else {
+				int distance = index2 - index1;
+				if (distance < 0) {
+					distance = -(distance);
+				}
+				return 1 + distance;
+			}
+		}
+		//these two else if statements have same function as the ones in the original recusive method
+		else if (word1.charAt(index1-1) == word2.charAt(index2-1)) {
+			return editDistance(word1, word2, index1-1, index2-1);
+		}
+		else { 
+			return 1 + Math.min(Math.min(editDistance(word1, word2, index1-1, index2), editDistance(word1, word2, index1, index2-1)), editDistance(word1, word2, index1-1, index2-1)); 
+		}
+	}
+	/*
+	 * soundex() will determine the soundex of each term so program can create a DictionaryItem for each term
+	 * First retains the first letter in upper case
+	 * Then it will find the soundex value for each letter in the word and check for restrictions.
+	 * If the value is not zero, program adds it to the end of soundex until its length is 4 letters long
+	 *  If the soundex never reaches 4 letters, it adds zero to the end until it does.
+	 */
+	public static String soundex(String word) {
+		char firstLetter = (char) (word.charAt(0)-32);
+		if (word.length() == 1) {
+			String soundex = "" + firstLetter + 000;
+			return soundex;
+		}
+		String soundex = "";
+		soundex += firstLetter;
+		for (int i=1; i<word.length(); i++) {
+			char letter = word.charAt(i);
+			int digit = soundexDigit(letter);
+			//Ensures that when break below is called, it doesn't break through the whole for loop. 
+			outerloop:
+			if (digit != 0) {
+				//Restriction c of soundex explained in handout
+				if (digit == soundexDigit(word.charAt(i-1))) {
+					break outerloop;
+				}
+				//Restriction d of soundex explained in handout
+				else if (i > 1) {
+					if (word.charAt(i-1) == 'h' || word.charAt(i-1) == 'w' && digit == soundexDigit(word.charAt(i-2))) {
+						break outerloop;
+					}
+				}
+				soundex += digit;
+			}
+			if (soundex.length() == 4) {
+				return soundex;
+			}
+		}
+		//Adds zeros to the end of soundex if there are not at least 3 digits.
+		while (soundex.length() != 4) {
+			soundex += 0;
+		}
+		return soundex;
+	}
+	
+	//Determines the value for each letter and returns it so program can add it onto soundex if applicable.
+	private static int soundexDigit(char c) {
+		switch(c) {
+			case 'a': case 'e': case 'i': case 'o': case 'u': case 'y': case 'h': case 'w':
+				return 0;
+			case 'b': case 'f': case 'p': case 'v': 
+				return 1; 
+			case 'c': case 'g': case 'j': case 'k': case 'q': case 's': case 'x': case 'z': 
+				return 2; 
+			case 'd': case 't': 
+				return 3; 
+			case 'l':
+				return 4;
+			case 'm': case 'n':
+				return 5;
+			case 'r':
+				return 6;
+			default :
+				return 0;
+		}
+	}
+	
+	/*
+	 * Main method first asks user to input a paragraph
+	 * If any punctuation is present, it gets removed. 
+	 * Then each word is checked to see if it misspelled.
+	 * If it is, then the program returns the best five suggestions for the misspelled term.
+	 */
+	public static void main(String[] args) {
+		SpellChecker spellChecker = new SpellChecker();
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter a paragraph followed by a blank line.");
+		do {
+			int count = 1;
+			String line = scan.nextLine();
+			//Allows program to exit if blank line is inputed
+			if (line.equals("")) {
+				System.exit(1);
+			}
+			//Replaces all punctuation with an empty space, changes all capital letter to lower case, and then split String to get separate words
+			String[] word = line.replaceAll("[^a-zA-Z ]", "").split("\\s+");
+			for (int i=0; i<word.length; i++) {
+				//Dictionary only has words less than or equal to 6 digits long
+//				if (word[i].length() <= 6) {
+					try {
+						//Algorithm used if inputed word is not found in dictionary.
+						if (spellChecker.checkDictionary(word[i]) == false) {
+							ArrayList<SuggestedTerm> rankedCandidates = spellChecker.getRankedCandidates(word[i]);
+							System.out.printf("Line %d, Word %d: '%s' is not in the dictionary \nSuggested Replacements\n", count, i+1, word[i]);
+							for (int m=0; m<5; m++) {
+								System.out.printf("%d) %s \n", m+1, rankedCandidates.get(m).getTerm());
+							}
+						}
+					} catch (StringIndexOutOfBoundsException ex) {
+						System.out.println("You did not enter a valid paragraph or blank line, try again: ");
+					}
+				}
+//			}
+		}while (scan.hasNextLine());
+
+	}
+} 

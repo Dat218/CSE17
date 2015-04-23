@@ -1,0 +1,23 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Homework #5 DEADLINE: April 13, 2015
+Program Description: Generics Inventory
+*/
+import java.util.ArrayList;
+public class Inventory {
+	ArrayList<Inventory> inventory;
+	public Inventory() {
+		inventory = new ArrayList<Inventory>(); 
+	}
+	
+	public void addItem(Inventory item) {
+		inventory.add(item);
+	}
+	
+	public Inventory getItem(int quantity) {
+		return inventory.get(quantity);
+	}		
+	
+}

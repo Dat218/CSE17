@@ -1,0 +1,18 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #5 DEADLINE: April 23, 2015
+Program Description: Digital Music Library with Advanced Sorting
+*/ 
+import java.util.ArrayList;
+import java.util.Comparator;
+public class ComparatorSorts {
+	public static <T> void mergeSort(ArrayList<T> list, Comparator<T> sortOrder) {
+		
+	}
+	
+	public static <T> void quickSort() {
+		
+	}
+}

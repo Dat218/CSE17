@@ -1,0 +1,27 @@
+/*
+CSE 17
+Your name
+Your user id
+Homework #3 DEADLINE: February 18, 2015
+Program Description: Document Statistics
+*/ 
+public class Term {
+	private String token;
+	private int frequency;
+	
+	Term(String token, int frequency) {
+		
+	}
+	
+	public String getToken() {
+		return this.token;
+	}
+	
+	public int getFrequency() {
+		return this.frequency;
+	}
+	
+	public int getLetterCount(char temporaryName) {
+		return 0;
+	}
+}

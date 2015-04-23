@@ -1,0 +1,77 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Homework #3 DEADLINE: February 18, 2015
+Program Description: Document Statistics
+*/ 
+import java.util.Scanner;
+public class Document {
+	private Term terms;
+	
+	Document(String text) {
+		String[] terms = text.split(" ");
+		recordTermFreqs(terms);
+	}
+	
+	private void recordTermFreqs(String[] terms) {
+		sortStrings(terms);
+		for (int i=0; i<terms.length; i++) {
+			System.out.println(terms[i]);
+		}
+	}
+	
+	public static String[] sortStrings(String[] terms) {
+		int min = 0;
+		int minLetterCount = 0;
+		for (int i=0; i<terms.length-1; i++) {
+			min = i;
+			for (int m=i+1; m<terms.length; m++) {
+				if ((int)(terms[m].charAt(0)) < (int)(terms[min].charAt(0))) {
+					min = m;
+				}
+				//In case if first letter of each is the same
+				if ((int)(terms[min].charAt(0)) == (int)(terms[m].charAt(0))) {
+					//Checking to see if terms are the same
+					if (terms[min].length() == terms[m].length()) {
+						for (int n=1; n<terms[min].length(); n++) {
+							if ((int)(terms[min].charAt(n)) < (int)(terms[m].charAt(n))) {
+								break;
+							}
+							else if ((int)(terms[min].charAt(n)) > (int)(terms[m].charAt(n))) {
+								min = m;
+								break;
+							}
+							else {
+								continue;
+							}
+						}
+					}
+					//To determine which word comes first. Knows that words are different because of different String lengths
+					else {
+						
+					}
+				}
+			}
+			String temp = terms[i];
+			terms[i] = terms[min];
+			terms[min] = temp;
+		}
+		return terms;
+	}
+	
+	public void printTermFreqs() {
+		
+	}
+	
+	public int getLetterCount(char letter) {
+		
+	}
+	
+	public static void main(String[] args) {
+		Scanner scan= new Scanner(System.in);
+		System.out.println("Enter a line of text");
+		String userInput = scan.nextLine();
+		Document text = new Document(userInput);
+	}
+}

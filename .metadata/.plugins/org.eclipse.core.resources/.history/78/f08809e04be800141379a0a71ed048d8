@@ -1,0 +1,148 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #5 DEADLINE: April 23, 2015
+Program Description: Digital Music Library with Advanced Sorting
+*/
+import java.util.Comparator;
+public class Song {
+	private String title;
+	private String artist;
+	private String album;
+	private int time;
+	private int year;
+	public static Comparator<Song> SongTitleComparator = new TitleComparator();
+	public static Comparator<Song> SongArtistComparator = new ArtistComparator();
+	public static Comparator<Song> SongYearComparator = new YearComparator();
+	
+	public Song(String title, String artist, String album, int year, int time) {
+		this.title = title;
+		this.artist = artist; 
+		this.album = album;
+		this.year = year;
+		this.time = time;
+	}
+	
+	public Song(String title, String artist, String album, int year, String timeString) {
+		this.title = title; 
+		this.artist = artist; 
+		this.album = album; 
+		this.year = year;
+		this.time = timeStringToSecs(timeString);
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public String getArtist() {
+		return this.artist;
+	}
+	
+	public String getAlbum() {
+		return this.album;
+	}
+	
+	public int getYear() {
+		return this.year;
+	}
+	
+	public int getTime() {
+		return this.time;
+	}
+	
+	public String getTimeAsFormattedString() {
+		String time = "";
+		int hours = this.time/60;
+		return time += hours + ":" + (this.time - hours*60); 
+	}
+	
+	public void printSongRow() {
+		String songDetail = "";
+		songDetail += this.getTitle();
+		for (int t=0; t<25-this.getTitle().length(); t++) {
+			songDetail += " ";
+		}
+		songDetail += "\t" + this.getArtist();
+		for (int a=0; a<25-this.getArtist().length(); a++) {
+			songDetail += " ";
+		}
+		songDetail += "\t" + this.getAlbum();
+		for (int al=0; al<30-this.getAlbum().length(); al++) {
+			songDetail += " ";
+		}
+		songDetail += "\t" + this.getYear() + "\t" + this.getTimeAsFormattedString();
+		System.out.println(songDetail);
+	}
+	
+	public String toString() {
+		String songString = "";
+		char quotations = '"';
+		return songString += quotations + this.album + quotations + " by " + this.artist + " (" + this.year + ")";
+	}
+	
+	public static int timeStringToSecs(String timeString) {
+		String[] stringTime = timeString.split(":");
+		int count = 0;
+		int totalTime = 0;
+		for (int i=stringTime.length-1; i>=0; i--) {
+			int time = Integer.parseInt(stringTime[i]);
+			if (count != 0) {
+				for (int m=0; m<count; m++) {
+					time = time * 60;
+				}
+			}
+			totalTime += time;
+			count++;
+		}
+		return totalTime;		
+	}
+}
+
+class TitleComparator implements Comparator<Song> {
+	public int compare(Song o1, Song o2) {
+		if (o1.getTitle().compareTo(o2.getTitle()) < 0) {
+			return -1;
+		}
+		if (o1.getTitle().compareTo(o2.getTitle()) > 0) {
+			return 1;
+		}
+		else {
+			System.out.println("HEY")
+			return 0;
+		}
+	}
+}
+
+class ArtistComparator implements Comparator<Song> {
+	public int compare(Song o1, Song o2) {
+		if (o1.getArtist().compareTo(o2.getArtist()) < 0) {
+			System.out.println(o1.getArtist() + " " + o2.getArtist());
+			return -1;
+		}
+		if (o1.getArtist().compareTo(o2.getArtist()) > 0) {
+			System.out.println(o1.getArtist() + " " + o2.getArtist());
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+}
+
+class YearComparator implements Comparator<Song> {
+	public int compare(Song o1, Song o2) {
+		if (o1.getYear() < o2.getYear()) {
+			return -1;
+		}
+		else if (o1.getYear() > o2.getYear()) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+}
+

@@ -1,0 +1,30 @@
+
+public class Score {
+	private String team;
+	private String play;
+	private int points;
+	
+	public Score(String team, String play, int points) {
+		
+	}
+	
+	public Score(String team, String play) {
+		
+	}
+	
+	public String getTeam() {
+		return team;
+	}
+	
+	public String getPlay() {
+		return play;
+	}
+	
+	public int getPoints() {
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		
+	}
+}

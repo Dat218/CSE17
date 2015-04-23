@@ -1,0 +1,158 @@
+/*
+CSE 17
+Daniel Truong
+862607977
+Program #5 DEADLINE: April 23, 2015
+Program Description: Digital Music Library with Advanced Sorting
+*/
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+public class Playlist {
+	private String name;
+	private ArrayList<Song> songs;
+	
+	/* 
+	 * This constructor creates an instance of Playlist that includes 
+	 * an arraylist of songs in the playlist and the name of the playlist
+	 */
+	public Playlist(String name) {
+		songs = new ArrayList<Song>();
+		this.name = name;
+	}
+	
+	//Returns the description of the playlist
+	public String getName() {
+		return this.name;
+	}
+	
+	//Return the song that has the desired index of the song arralist in this playlist object
+	public Song getSong(int index) {
+		if (index < 1 || index > songs.size()) {
+			return null;
+		}
+		else {
+			return songs.get(index-1);
+		}
+	}
+	
+	//Returns the amount of songs in the playlist
+	public int getNumSongs() {
+		return songs.size();
+	}
+	
+	//Adds song to song arraylist in the specific playlist instance
+	public void addSong(Song song) {
+		songs.add(song);
+	}
+	
+	//Prints the description of the playlist event
+	public void printList() {
+		System.out.println(this.name);
+		int count = 1; 
+		for (int i=0; i<songs.size(); i++) {
+			System.out.printf("%d\t", count);
+			songs.get(i).printSongRow();
+			count++;
+		}
+	}
+	
+	//Invokes a merge sort to resort songs by year in ascending order.
+	public void sortByYear() {
+		System.out.printf("Sorting %s by year \n", this.name);
+		ComparatorSorts.mergeSort(songs, Song.SongYearComparator);
+	}
+	
+	//Invokes a quick sort to resort songs by artist in ascending order.
+	public void sortByArtist() {
+		System.out.printf("Sorting %s by artist \n", this.name);
+		ComparatorSorts.quickSort(songs, Song.SongArtistComparator);
+	}
+	
+	//Invokes a quick sort to resort songs by title in ascending order.
+	public void sortByTitle() {
+		System.out.printf("Sorting %s by title \n", this.name);
+		ComparatorSorts.quickSort(songs, Song.SongTitleComparator);
+	}
+	
+	/* 
+	 * Reads the detail from the file and stores each value in a temporary variable 
+	 * Then this class will create a song instance with each of these values and add
+	 * this instance into the song arraylist, which is part of the playlist instance. 
+	 */
+	public static Playlist readPlayListFromFile(String filename) {
+		try {
+			File file = new File(filename);
+			Scanner fileContent = new Scanner(file);
+			String description = fileContent.nextLine();
+			Playlist playlist = new Playlist(description);
+			fileContent.useDelimiter("\\t|[\\n\\r\\f]+");
+			while(fileContent.hasNext()) {
+				String title = fileContent.next();
+				String artist = fileContent.next();
+				String album = fileContent.next();
+				int year = fileContent.nextInt();
+				String time = fileContent.next();
+				Song song = new Song(title, artist, album, year, time);
+				playlist.songs.add(song);
+			}
+			return playlist;
+		} catch (FileNotFoundException e) {
+			System.out.println("Invalid file.");
+		}
+		return null;
+	}
+	
+	/*
+	 * Main method that calls the readPlayListFromFile method to read the details of each file 
+	 * Stores each playlist created in the readPlayListFromFile in an arraylist of playlists
+	 * Prints all created playlists and sorts it accordingly. 
+	 * Prints out the sorted playlists and outputs the first and last song of the first sorted playlist
+	 */
+	public static void main(String[] args) {
+		if (args.length > 0) {
+			ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+			for (int i=0; i<args.length; i++) {
+				String filename = args[i];
+				Playlist playlist = readPlayListFromFile(filename);
+				playlists.add(playlist);
+				if (playlists.get(i) != null) {
+					playlist.printList();
+					System.out.println("");
+				}
+			}
+			int count = 1;
+			for (int m=0; m<playlists.size(); m++) {
+				if (playlists.get(m) != null) {	
+					if (count == 1) {
+						playlists.get(m).sortByArtist();
+						count++;
+					}
+					else if (count == playlists.size()-1 && count != 1) {
+						playlists.get(m).sortByYear();
+						count++;
+					}
+					else {
+						playlists.get(m).sortByTitle();
+					}
+					playlists.get(m).printList();
+					System.out.println("");
+				}
+			}
+			for (int n=0; n<playlists.size(); n++) {
+				if (playlists.get(n) != null) {
+					System.out.printf("First and last song in the %s\n", playlists.get(n).getName());
+					System.out.println(playlists.get(n).getSong(1));
+					System.out.println(playlists.get(n).getSong(playlists.get(n).getNumSongs()));
+					break;
+				}
+				else 
+					continue;
+			}
+		}
+		else {
+			System.out.println("NEED ONE ARGUMENT");
+		}
+	}
+}

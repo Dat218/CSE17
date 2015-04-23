@@ -1,0 +1,10 @@
+
+public class FootballScore {
+	private int quarter;
+	private String time;
+	private int patPts;
+	private String patPlay;
+	private String type;
+	
+	public FootballScore()
+}
